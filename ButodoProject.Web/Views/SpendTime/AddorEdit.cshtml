@@ -1,0 +1,63 @@
+﻿@using ButodoProject.Core.Service.Dto
+@model ButodoProject.Core.Service.Dto.SpendTimeDto
+
+@{
+    ViewData["Title"] = "Harcanan zamanı oluştur";
+}
+
+<div class="container-fluid">
+    <p class="mb-4 mt-4"></p>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Harcanan zamanı oluştur</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="AddorEdit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="form-group">
+                            <label asp-for="Hour" class="control-label">Harcanan Saat</label>
+                            <input name="Hour" id="Hour" type="text" class="form-control"/>
+                            <span asp-validation-for="Hour" class="text-danger"></span>
+
+                        </div>
+                     
+                        <div class="form-group">
+                            <label class="control-label">Personel</label>
+                            <select name="PersonalId" id="PersonalId" class="form-control"
+                                    asp-items="@(new SelectList(Model.PersonalList,  nameof(PersonalDto.Id), nameof(PersonalDto.Name),Model.PersonalId))">
+                                <option>Lütfen Seçim Yapın</option>
+                            </select>
+                            <span asp-validation-for="PersonalId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Görev</label>
+                            <select name="TaskTableId" id="TaskTableId" class="form-control"
+                                    asp-items="@(new SelectList(Model.TaskTableList, nameof(TaskTableDto.Id), nameof(TaskTableDto.Name),Model.TaskTableId))">
+                                <option>Lütfen Seçim Yapın</option>
+                            </select>
+                            <span asp-validation-for="TaskTableId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> @(Model.Id == Guid.Empty ? "Yeni Oluştur" : "Güncelle")</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ml-4">
+            <a asp-action="index">Listeye Geri Dön</a>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

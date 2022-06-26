@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ButodoProject.Core.Service.Dto.ProjectDto>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    
+
+    <div class="row">
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Yapılacaklar</h6>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model)
+                    {
+                        if (item != null)
+                        {
+                            <ul class="list-group">
+                                <b> @item.ProjectName</b>
+                                @foreach (var item2 in item.TaskTableList.ToList())
+                                {
+                                    <li class="list-group-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkbox" />
+                                            <label for="checkbox">
+                                                @item2.Name
+                                            </label>
+                                        </div>
+                                        <div class="pull-right action-buttons">
+                                            <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                                            <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+
+                                            @Html.ActionLink("Detay", "TaskMessageList", new { id=item2.Id})
+                                            @*| @item2.Personal?.Username*@
+                                            | Bitiş Tarihi: @item2.EndDate.ToString("dd-MM-yyyy")
+@*                                            @Html.ActionLink("Personal Ata", "ChangePersonalTask", new { id=item2.Id})
+*@
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+
+
+        </div>
+       
+
+    </div>
+
+</div>
+<!-- /.container-fluid -->

@@ -1,0 +1,56 @@
+﻿@using ButodoProject.Core.Service.Dto
+@model ButodoProject.Core.Service.Dto.PersonalProjectDto
+
+@{
+    ViewData["Title"] = "Personel Proje Oluştur";
+}
+
+<div class="container-fluid">
+    <p class="mb-4 mt-4"></p>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Personel Proje Oluştur</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="AddorEdit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="form-group">
+                            <label class="control-label">Personel</label>
+                            <select name="PersonalId" id="PersonalId" class="form-control"
+                                    asp-items="@(new SelectList(Model.PersonalList,  nameof(PersonalDto.Id), nameof(PersonalDto.Name),Model.PersonalId))">
+                                <option>Lütfen Seçim Yapın</option>
+                            </select>
+                            <span asp-validation-for="PersonalId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Proje</label>
+                            <select name="ProjectId" id="ProjectId" class="form-control"
+                                    asp-items="@(new SelectList(Model.ProjectList, nameof(ProjectDto.Id), nameof(ProjectDto.ProjectName),Model.ProjectId))">
+                                <option>Lütfen Seçim Yapın</option>
+                            </select>
+                            <span asp-validation-for="ProjectId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> @(Model.Id == Guid.Empty ? "Yeni Oluştur" : "Güncelle")</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ml-4">
+            <a asp-action="index">Listeye Geri Dön</a>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

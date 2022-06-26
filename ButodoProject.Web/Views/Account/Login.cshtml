@@ -1,0 +1,328 @@
+﻿@model ButodoProject.Core.Service.Dto.LoginDto
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>Techno Software CMS</title>
+    <meta name="description" content="Butodo İçerik Yönerim Sistemi" />
+    <meta name="robots" content="noindex">
+    <style>
+        /** YUI 3.18.1 **/
+        html {
+            color: #000;
+            background: #FFF;
+            height: 100%;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+            margin: 0;
+            padding: 0
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        fieldset, img {
+            border: 0
+        }
+
+        address, caption, cite, code, dfn, em, strong, th, var {
+            font-style: normal;
+            font-weight: normal
+        }
+
+        ol, ul {
+            list-style: none
+        }
+
+        caption, th {
+            text-align: left
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 100%;
+            font-weight: normal
+        }
+
+        q:before, q:after {
+            content: ''
+        }
+
+        abbr, acronym {
+            border: 0;
+            font-variant: normal
+        }
+
+        sup {
+            vertical-align: text-top
+        }
+
+        sub {
+            vertical-align: text-bottom
+        }
+
+        input, textarea, select {
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            *font-size: 100%
+        }
+
+        legend {
+            color: #000
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        body {
+            background: #f6fafb;
+            font-family: tahoma;
+            height: 100%;
+            width: 100%;
+        }
+
+        ::selection {
+            background: #EDB218;
+            color: #ffffff;
+        }
+
+        ::placeholder {
+            color: #a7a7a7;
+        }
+
+        * {
+            -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+            -moz-box-sizing: border-box; /* Firefox, other Gecko */
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .box {
+            margin: 100px auto 0;
+            padding: 50px 50px 70px;
+            background: #ffffff;
+            display: inline-block;
+            text-align: left;
+            min-width: 400px;
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+        }
+
+            .logo img {
+                width: 170px;
+            }
+
+            .logo span {
+                font-size: 14px;
+                color: #402653;
+            }
+
+        p {
+            font-size: 24px;
+            color: #3F2552;
+            margin: 40px 0 15px;
+        }
+
+            p b {
+                font-weight: 800;
+            }
+
+        .input {
+            width: 100%;
+            margin-bottom: 20px;
+            border: solid 1px #eaebed;
+            height: 60px;
+            border-radius: 3px;
+        }
+
+            .input input[type=text],
+            .input input[type=password] {
+                width: 100%;
+                padding: 0 10px;
+                height: 58px;
+                line-height: 58px;
+                font-size: 16px;
+                color: #3f2552;
+                border: none;
+            }
+
+
+        /* Base for label styling */
+        input[type="checkbox"]:not(:checked),
+        input[type="checkbox"]:checked {
+            position: absolute;
+            left: -9999px;
+        }
+
+            input[type="checkbox"]:not(:checked) + label,
+            input[type="checkbox"]:checked + label {
+                position: relative;
+                padding-left: 1.95em;
+                cursor: pointer;
+            }
+
+                /* checkbox aspect */
+                input[type="checkbox"]:not(:checked) + label:before,
+                input[type="checkbox"]:checked + label:before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 4px;
+                    width: 18px;
+                    height: 18px;
+                    border: 1px solid #ccc;
+                    background: #fff;
+                    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+                }
+                /* checked mark aspect */
+                input[type="checkbox"]:not(:checked) + label:after,
+                input[type="checkbox"]:checked + label:after {
+                    /*content: '✔';*/
+                    content: ' ';
+                    position: absolute;
+                    top: 5px;
+                    left: 2px;
+                    width: 17px;
+                    height: 17px;
+                    font-size: 1.3em;
+                    line-height: 0.8;
+                    color: #3f2552;
+                    transition: all .2s;
+                    background: #edb218;
+                }
+
+                input[type="checkbox"]:checked + label:before {
+                    border-color: #3f2552;
+                }
+                /* checked mark aspect changes */
+                input[type="checkbox"]:not(:checked) + label:after {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+
+                input[type="checkbox"]:checked + label:after {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+        /* disabled checkbox */
+        input[type="checkbox"]:disabled:not(:checked) + label:before,
+        input[type="checkbox"]:disabled:checked + label:before {
+            box-shadow: none;
+            border-color: #bbb;
+            background-color: #EDB218;
+        }
+
+        input[type="checkbox"]:disabled:checked + label:after {
+            color: #999;
+        }
+
+        input[type="checkbox"]:disabled + label {
+            color: #aaa;
+        }
+        /* accessibility */
+        input[type="checkbox"]:checked:focus + label:before,
+        input[type="checkbox"]:not(:checked):focus + label:before {
+        }
+
+        label {
+            height: 30px;
+            line-height: 30px;
+            color: #a7a7a7;
+            font-size: 14px;
+            float: left;
+        }
+
+            label:hover {
+                color: #888888;
+            }
+
+        button {
+            border: none;
+            border: solid 2px #8e346e;
+            background: #8e346e;
+            color: #fff;
+            text-align: center;
+            height: 45px;
+            line-height: 43px;
+            float: right;
+            width: 120px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #ffffff;
+                color: #8e346e;
+            }
+
+        .forgot-password {
+            clear: both;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+            .forgot-password a {
+                height: 30px;
+                line-height: 30px;
+                color: #a7a7a7;
+                font-size: 14px;
+                text-decoration: underline;
+            }
+    </style>
+
+</head>
+<body>
+    <div style="text-align: center">
+        <div class="box">
+            <div class="logo">
+                <img src="~/images/technosoftware-cms-logo.png" alt="Techno Software CMS">
+                <br />
+                <span>İçerik Yönetim Sistemine Hoşgeldiniz</span>
+            </div>
+
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <span class="text-danger">
+                        @ViewBag.Message
+                    </span>
+                }
+                @Html.HiddenFor(x => x.ReturnUrl)
+                <p><b>Giriş</b> yap</p>
+                <div class="input">
+                    <input type="text" id="inputUsername" name="Username" class="form-control" placeholder="Kullanıcı Adınız" required>
+                </div>
+                <div class="input">
+                    <input type="password" id="inputPassword" name="Password" class="form-control" placeholder="Şifreniz" required>
+                </div>
+                <div class="">
+                    <input id="RememberMe" type="checkbox" name="RememberMe" value="true">
+                    <label for="RememberMe">
+                        <i class="primary"></i> Bilgilerimi Hatırla
+                    </label>
+                </div>
+                <button id="submit-btn" type="submit" class="btn">Giriş Yap</button>
+                <div class="forgot-password">
+                    <a href="/Account/ForgotPassword">Şifremi Unuttum</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

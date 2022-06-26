@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ButodoProject.Core.Service.Dto.ProjectDto>
+@{
+    ViewData["Title"] = "Projeler";
+}
+<div class="container-fluid">
+    <p class="mb-4 mt-4"></p>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Projeler</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            
+                            <th>
+                                Proje Adı
+                            </th>
+                            <th>
+                                Tam Proje Adı
+                            </th>
+
+                            <th>
+                               Şirket Adı
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Leftx)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Rightx)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Depth)
+                            </th>
+
+                            <th>
+                                Oluşturulma Tarihi
+                            </th>
+                            <th>
+                                <a asp-action="AddorEdit" class="btn btn-outline-success"><i class="fa fa-plus-square"></i> Proje</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProjectName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullProjectName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CompanyName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Leftx)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Rightx)
+                                </td>
+
+                                  <td>
+                                    @Html.DisplayFor(modelItem => item.Depth)
+                                </td>
+                                  <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td>
+                                    <a asp-action="AddOrEdit" asp-route-id="@item.Id"><i class="fa fa-marker fa-lg"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu kayıdı kaldırmak istediğinize emin misiniz?')"><i class="fa fa-trash-alt fa-lg"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

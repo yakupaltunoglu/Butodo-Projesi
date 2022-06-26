@@ -1,0 +1,186 @@
+﻿/* Form Inputs */
+select.form-select,
+input[type=text].form-input,
+input[type=email].form-input,
+input[type=date].form-input,
+input[type=password].form-input,
+input[type=number].form-input,
+textarea.form-input {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    width: 100%;
+    color: #333333;
+    border: solid 2px #e1e4ea;
+    font-size: 16px;
+}
+
+textarea.form-input {
+    height: 35px;
+    line-height: normal;
+    padding: 10px;
+    width: 100%;
+    color: #333333;
+    border: solid 2px #e1e4ea;
+    font-size: 16px;
+}
+
+    input[type=text].form-input:read-only,
+    input[type=email].form-input:read-only,
+    input[type=date].form-input:read-only,
+    input[type=password].form-input:read-only,
+    input[type=number].form-input:read-only,
+    textarea.form-input:read-only {
+        background-color: #e1e4ea;
+        border: solid 2px #e1e4ea;
+        cursor: default;
+    }
+
+    select.form-select:focus,
+    input[type=text].form-input:focus,
+    input[type=email].form-input:focus,
+    input[type=date].form-input:focus,
+    input[type=password].form-input:focus,
+    input[type=number].form-input:focus,
+    textarea.form-input:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    }
+
+textarea.form-input {
+    min-height: 200px;
+}
+
+
+    select.form-select-xxlarge,
+    input[type=text].form-input-xxlarge,
+    input[type=email].form-input-xxlarge,
+    input[type=date].form-input-xxlarge,
+    input[type=password].form-input-xxlarge,
+    input[type=number].form-input-xxlarge,
+    textarea.form-input.form-input-xxlarge {
+        height: 70px;
+        line-height: 70px;
+        font-size: 26px;
+    }
+
+    select.form-select-xlarge,
+    input[type=text].form-input-xlarge,
+    input[type=email].form-input-xlarge,
+    input[type=date].form-input-xlarge,
+    input[type=password].form-input-xlarge,
+    input[type=number].form-input-xlarge,
+    textarea.form-input.form-input-xlarge {
+        height: 55px;
+        line-height: 55px;
+        font-size: 22px;
+    }
+
+    select.form-select-large,
+    input[type=text].form-input-large,
+    input[type=email].form-input-large,
+    input[type=date].form-input-large,
+    input[type=password].form-input-large,
+    input[type=number].form-input-large,
+    textarea.form-input.form-input-large {
+        height: 45px;
+        line-height: 50px;
+        font-size: 16px;
+    }
+
+    select.form-select-small,
+    input[type=text].form-input-small,
+    input[type=email].form-input-small,
+    input[type=date].form-input-small,
+    input[type=password].form-input-small,
+    input[type=number].form-input-small,
+    textarea.form-input.form-input-small {
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+    }
+
+    select.form-select-xsmall,
+    input[type=text].form-input-xsmall,
+    input[type=email].form-input-xsmall,
+    input[type=date].form-input-xsmall,
+    input[type=password].form-input-xsmall,
+    input[type=number].form-input-xsmall,
+    textarea.form-input.form-input-xsmall {
+        height: 25px;
+        line-height: 25px;
+        font-size: 12px;
+    }
+
+.form-label {
+    font-size: 16px;
+    font-weight: 400;
+    padding-bottom: 10px;
+    color: #000000;
+    display: block;
+}
+
+
+select.form-select.error,
+input[type=text].form-input.error,
+input[type=email].form-input.error,
+input[type=date].form-input.error,
+input[type=password].form-input.error,
+input[type=number].form-input.error,
+textarea.form-input.error {
+    border: solid 1px #e24a24;
+    background: #ffeedd;
+}
+
+
+select.form-select-xxlarge.form-input-rounded,
+input[type=text].form-input-xxlarge.form-input-rounded,
+input[type=email].form-input-xxlarge.form-input-rounded,
+input[type=date].form-input-xxlarge.form-input-rounded,
+input[type=password].form-input-xxlarge.form-input-rounded,
+input[type=number].form-input-xxlarge.form-input-rounded,
+textarea.form-input.form-input-xxlarge.form-input-rounded {
+    border-radius: 35px !important;
+}
+
+select.form-select-xlarge.form-input-rounded,
+input[type=text].form-input-xlarge.form-input-rounded,
+input[type=email].form-input-xlarge.form-input-rounded,
+input[type=date].form-input-xlarge.form-input-rounded,
+input[type=password].form-input-xlarge.form-input-rounded,
+input[type=number].form-input-xlarge.form-input-rounded,
+textarea.form-input.form-input-xlarge.form-input-rounded {
+    border-radius: 28px !important;
+}
+
+select.form-select-large.form-input-rounded,
+input[type=text].form-input-large.form-input-rounded,
+input[type=email].form-input-large.form-input-rounded,
+input[type=date].form-input-large.form-input-rounded,
+input[type=password].form-input-large.form-input-rounded,
+input[type=number].form-input-large.form-input-rounded,
+textarea.form-input.form-input-large.form-input-rounded {
+    border-radius: 23px !important;
+}
+
+select.form-select-small.form-input-rounded,
+input[type=text].form-input-small.form-input-rounded,
+input[type=email].form-input-small.form-input-rounded,
+input[type=date].form-input-small.form-input-rounded,
+input[type=password].form-input-small.form-input-rounded,
+input[type=number].form-input-small.form-input-rounded,
+textarea.form-input.form-input-small.form-input-rounded {
+    border-radius: 15px !important;
+}
+
+select.form-select-xsmall.form-input-rounded,
+input[type=text].form-input-xsmall.form-input-rounded,
+input[type=email].form-input-xsmall.form-input-rounded,
+input[type=date].form-input-xsmall.form-input-rounded,
+input[type=password].form-input-xsmall.form-input-rounded,
+input[type=number].form-input-xsmall.form-input-rounded,
+textarea.form-input.form-input-xsmall.form-input-rounded {
+    border-radius: 13px !important;
+}
