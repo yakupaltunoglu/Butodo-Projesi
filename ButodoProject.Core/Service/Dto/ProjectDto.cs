@@ -8,19 +8,19 @@ namespace ButodoProject.Core.Service.Dto
     {
         public Guid Id { get; set; }
 
-        public string ProjectName { get; set; }
-        public string FullProjectName { get; set; }
-        public Guid CompanyId { get; set; }
-        public string CompanyName { get; set; }
-        //public List<Itemlist> CompanyList { get; set; }
+        public string Name { get; set; }
+        public string FullName { get; set; }
+ 
         public int Leftx { get; set; }
         public int Rightx { get; set; }
         public int Depth { get; set; }
 
-        public List<TaskTableDto> TaskTableList { get; set; }
         public string Username { get; set; }
+        public Guid CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public IList<CompanyDto> CompanyList { get; set; }
+        public IList<TaskTableDto> TaskTableList { get; set; }
 
-        //public List<Itemlist> PersonalList { get; set; }
         public DateTime CreatedAt { get; set; }
 
     }

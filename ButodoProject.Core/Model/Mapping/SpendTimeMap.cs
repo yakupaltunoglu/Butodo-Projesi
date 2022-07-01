@@ -8,7 +8,7 @@ namespace ButodoProject.Model.Mapping
     {
         public SpendTimeMap()
         {
-            Map(x => x.Hour);
+            Map(x => x.Minute);
             References(x => x.Personal).Column("Personal");
             References(x => x.TaskTable).Column("TaskTable");
         }

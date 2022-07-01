@@ -13,6 +13,9 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
@@ -22,11 +25,13 @@ namespace ButodoProject.Web.Controllers
         private readonly ITaskTableService _taskTableService;
         private readonly IPersonalService _personalService;
         private readonly ISpendTimeService _spendTimeService;
-        public SpendTimeController(NHibernate.ISession sessions)
+        private IValidator<SpendTimeDto> _validator;
+        public SpendTimeController(NHibernate.ISession sessions, IValidator<SpendTimeDto> validator)
         {
             _taskTableService = new TaskTableService(sessions);
             _personalService = new PersonalService(sessions);
             _spendTimeService = new SpendTimeService(sessions);
+            _validator = validator;
 
         }
         #region Crud
@@ -40,22 +45,30 @@ namespace ButodoProject.Web.Controllers
             Guid spendTimeId;
             Guid.TryParse(id, out spendTimeId);
             var result = _spendTimeService.GetSpendTime(spendTimeId);
-            result.PersonalList = _personalService.ListPersonal();
-            result.TaskTableList = _taskTableService.ListTaskTable();
+            GetSelectListItems(result);
             return View(result);
         }
 
+        private void GetSelectListItems(SpendTimeDto result)
+        {
+            result.PersonalList = _personalService.ListPersonal();
+            result.TaskTableList = _taskTableService.ListTaskTable();
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,PersonalId,TaskTableId")] SpendTimeDto spendTimeDto,double Hour)
+        public async Task<IActionResult> AddorEdit([Bind("Id,PersonalId,TaskTableId,Minute")] SpendTimeDto spendTimeDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(spendTimeDto);
+
+            if (result.IsValid)
             {
-                spendTimeDto.Hour = Hour;
                 _spendTimeService.SaveOrUpdateSpendTime(spendTimeDto);
                 return RedirectToAction(nameof(Index));
             }
+
+            result.AddToModelState(this.ModelState, "");
+            ViewBag.Exception = result.Errors;
+            GetSelectListItems(spendTimeDto);
             return View(spendTimeDto);
         }
       

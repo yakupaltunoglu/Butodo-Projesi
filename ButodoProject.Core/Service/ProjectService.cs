@@ -38,8 +38,8 @@ namespace ButodoProject.Core.Service
                 .SelectList(u => u
                     .Select(x => jCompany.Name).WithAlias(() => projectDto.CompanyName)
                     .Select(x => x.Id).WithAlias(() => projectDto.Id)
-                    .Select(x => x.FullProjectName).WithAlias(() => projectDto.FullProjectName)
-                    .Select(x => x.ProjectName).WithAlias(() => projectDto.ProjectName)
+                    .Select(x => x.FullName).WithAlias(() => projectDto.FullName)
+                    .Select(x => x.Name).WithAlias(() => projectDto.Name)
                     .Select(x => x.Leftx).WithAlias(() => projectDto.Leftx)
                     .Select(x => x.Rightx).WithAlias(() => projectDto.Rightx)
                     .Select(x => x.Depth).WithAlias(() => projectDto.Depth)
@@ -62,14 +62,25 @@ namespace ButodoProject.Core.Service
                 {
                     node = new Project
                     {
-                        FullProjectName = data.FullProjectName,
+                        Name = data.Name,
+                        FullName = data.FullName,
+                        Leftx = data.Leftx,
+                        Rightx = data.Rightx,
+                        Depth = data.Depth,
+                        Company = CurrentSession.Load<Company>(data.CompanyId),
                     };
 
                     CurrentSession.Save(node);
                 }
                 else
                 {
-                    node.FullProjectName = data.FullProjectName;
+
+                    node.Name = data.Name;
+                    node.FullName = data.FullName;
+                    node.Leftx = data.Leftx;
+                    node.Rightx = data.Rightx;
+                    node.Depth = data.Depth;
+                    node.Company = CurrentSession.Load<Company>(data.CompanyId);
                     node.LastUpdatedAt = DateTime.Now;
                     CurrentSession.Update(node);
                 }
@@ -89,7 +100,13 @@ namespace ButodoProject.Core.Service
             return project == null ? new ProjectDto() : new ProjectDto
             {
                 Id = id,
-                FullProjectName = project.FullProjectName,
+                Name = project.Name,
+                FullName = project.FullName,
+                Leftx=project.Leftx,
+                Rightx=project.Rightx,
+                Depth=project.Depth,
+                CompanyId= project.Company.Id
+
             };
         }
         public void DeleteProject(Guid id)

@@ -13,6 +13,9 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation.Results;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
@@ -22,11 +25,14 @@ namespace ButodoProject.Web.Controllers
         private readonly ITaskTableService _taskTableService;
         private readonly IPersonalService _personalService;
         private readonly IProjectService _projectService;
-        public TaskTableController(NHibernate.ISession sessions)
+        private IValidator<TaskTableDto> _validator;
+
+        public TaskTableController(NHibernate.ISession sessions, IValidator<TaskTableDto> validator)
         {
             _taskTableService = new TaskTableService(sessions);
             _personalService = new PersonalService(sessions);
             _projectService = new ProjectService(sessions);
+            _validator = validator;
 
         }
         #region Crud
@@ -40,21 +46,35 @@ namespace ButodoProject.Web.Controllers
             Guid personalProjectId;
             Guid.TryParse(id, out personalProjectId);
             var result = _taskTableService.GetTaskTable(personalProjectId);
-            result.PersonalList = _personalService.ListPersonal();
-            result.ProjectList = _projectService.ListProject();
+            GetSelectListItems(result);
             return View(result);
         }
 
+        private void GetSelectListItems(TaskTableDto result)
+        {
+            result.PersonalList = _personalService.ListPersonal();
+            result.ProjectList = _projectService.ListProject();
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,Name,EndDate,PersonalId,ProjectId")] TaskTableDto taskTableDto)
+        public async Task<IActionResult> AddorEdit([Bind("Id,Name,EndDate,PersonalId,ProjectId")] TaskTableDto taskTableDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(taskTableDto);
+
+            if (result.IsValid)
             {
                 _taskTableService.SaveOrUpdateTaskTable(taskTableDto);
                 return RedirectToAction(nameof(Index));
             }
+            result.AddToModelState(this.ModelState,"");
+
+
+
+            ViewBag.Exception = result.Errors;
+
+
+
+            GetSelectListItems(taskTableDto);
             return View(taskTableDto);
         }
       

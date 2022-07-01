@@ -18,10 +18,10 @@ using ButodoProject.Model.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentValidation.AspNetCore;
-using ButodoProject.Web.Validators.Personals;
+using ButodoProject.Core.Validators.Personals;
 using Microsoft.AspNetCore.Mvc;
-using ButodoProject.Web.Filters;
 using FluentValidation;
+using NHibernate.Tool.hbm2ddl;
 
 namespace ButodoProject.Web
 {
@@ -66,6 +66,7 @@ namespace ButodoProject.Web
                     .ConnectionString(Configuration.GetConnectionString("DefaultConnection")))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<EntityBase>())
                 //.ExposeConfiguration(cfg => new SchemaExport(cfg).Create(true, true))
+                .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
                 .ExposeConfiguration(cfg =>
                 {
                     cfg.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new NHibernateListener() };

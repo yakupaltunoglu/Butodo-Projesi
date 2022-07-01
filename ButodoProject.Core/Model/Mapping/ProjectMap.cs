@@ -8,8 +8,8 @@ namespace ButodoProject.Model.Mapping
     {
         public ProjectMap()
         {
-            Map(x => x.ProjectName);
-            Map(x => x.FullProjectName);
+            Map(x => x.Name);
+            Map(x => x.FullName);
             References(x => x.Company).Column("Company");
             Map(x => x.Leftx).Column("Leftx");
             Map(x => x.Rightx).Column("Rightx");

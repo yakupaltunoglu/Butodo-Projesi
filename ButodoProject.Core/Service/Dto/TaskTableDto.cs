@@ -20,5 +20,6 @@ namespace ButodoProject.Core.Service.Dto
         public PersonalDto PersonalDto { get; set; }
         public IList<PersonalDto> PersonalList { get; set; }
 
+
     }
 }

@@ -13,6 +13,9 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
@@ -20,10 +23,11 @@ namespace ButodoProject.Web.Controllers
     public class CompanyController : Controller
     {
         private readonly ICompanyService _companyService;
-        public CompanyController(NHibernate.ISession sessions)
+        private IValidator<CompanyDto> _validator;
+        public CompanyController(IValidator<CompanyDto> validator, NHibernate.ISession sessions)
         {
             _companyService = new CompanyService(sessions);
-
+            _validator = validator;
         }
         #region Crud
         public IActionResult Index()
@@ -40,14 +44,19 @@ namespace ButodoProject.Web.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,Name")] CompanyDto companyDto)
+        public async Task<IActionResult> AddorEdit([Bind("Id,Name")] CompanyDto companyDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(companyDto);
+
+            if (result.IsValid)
             {
                 _companyService.SaveOrUpdateCompany(companyDto);
                 return RedirectToAction(nameof(Index));
             }
+
+            result.AddToModelState(this.ModelState,"");
+            ViewBag.Exception = result.Errors;
+
             return View(companyDto);
         }
       

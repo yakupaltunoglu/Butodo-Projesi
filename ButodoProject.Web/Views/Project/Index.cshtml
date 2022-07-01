@@ -17,9 +17,9 @@
                             <th>
                                 Proje Adı
                             </th>
-                            <th>
+                        @*    <th>
                                 Tam Proje Adı
-                            </th>
+                            </th>*@
 
                             <th>
                                Şirket Adı
@@ -47,12 +47,12 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ProjectName)
+                                    @Html.DisplayFor(modelItem => item.Name)
 
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FullProjectName)
-                                </td>
+                             @*   <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CompanyName)
                                 </td>

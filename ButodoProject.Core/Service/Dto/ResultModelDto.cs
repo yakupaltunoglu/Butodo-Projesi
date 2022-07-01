@@ -6,6 +6,6 @@ namespace ButodoProject.Core.Service.Dto
 {
     public class ResultModelDto
     {
-        public List<FluentValidation.Results.ValidationFailure> Exception { get; set; }
+        //public List<FluentValidation.Results.ValidationFailure> Exception { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace ButodoProject.Core.Service
                 .Where(x => x.IsDeleted == false)
                 .SelectList(u => u
                     .Select(x => jPersonal.Name).WithAlias(() => taskTableDto.PersonalName)
-                    .Select(x => jProject.ProjectName).WithAlias(() => taskTableDto.ProjectName)
+                    .Select(x => jProject.Name).WithAlias(() => taskTableDto.ProjectName)
                     .Select(x => x.Id).WithAlias(() => taskTableDto.Id)
                     .Select(x => x.Name).WithAlias(() => taskTableDto.Name)
                     .Select(x => x.EndDate).WithAlias(() => taskTableDto.EndDate)

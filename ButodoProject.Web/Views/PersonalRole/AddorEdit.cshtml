@@ -1,0 +1,114 @@
+﻿@using ButodoProject.Core.Helper
+@using ButodoProject.Core.Model.FixType
+@using ButodoProject.Core.Service.Dto
+@using FluentValidation.Results
+@model ButodoProject.Core.Service.Dto.PersonalRoleDto
+@{
+    ViewData["Title"] = "Yetkiler Rol Ekle ve Düzenle";
+    var exception =(List<ValidationFailure>)ViewBag.Exception;
+
+}
+<div class="container-fluid">
+     @if (exception?.Count > 0)
+    {
+        <h1>Hata Listesi</h1>
+        <table class="table table-sm table-danger">
+            <tr>
+                <th scope="col">
+                    Hata Mesajı
+                </th>
+            </tr>
+            @{
+                int rowCount = 0;
+            }
+            @foreach (var err in exception)
+            {
+                rowCount += 1;
+                <tr @((rowCount%2)==0 ? "class=table-primary" : "class=table-secondary")>
+                    <td>
+                        @Html.DisplayFor(modelItem => err.ErrorMessage)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <p class="mb-4 mt-4"></p>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Yetkiler</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="AddorEdit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+
+                <div class="table-responsive col-4">
+                    <div class="form-group">
+                        <label class="control-label">Personel</label>
+                        <select name="PersonalId" id="PersonalId" class="form-control"
+                                asp-items="@(new SelectList(Model.PersonalListt,  nameof(PersonalDto.Id), nameof(PersonalDto.Name),Model.PersonalId))">
+                            <option>Lütfen Seçim Yapın</option>
+                        </select>
+                    </div>
+                    @{
+                        var roleTypes = ButodoProject.Core.Helper.EnumHelper.GetRoleTypes();
+                    }
+                    @{
+                        var rolePageTypes = ButodoProject.Core.Helper.EnumHelper.GetRolePageTypes();
+                    }
+                    <table class="table table-border table-striped">
+                        <thead>
+                            <tr>
+                                <th width="200">Tür</th>
+                                @foreach (var role in roleTypes)
+                                {
+
+                                    <th width="80">@role.GetName()</th>
+
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in rolePageTypes)
+                            {
+                                <tr>
+                                    <td>@item.GetName()</td>
+                                    @foreach (var role in roleTypes)
+                                    {
+                                        string rolePageType = item.ToString();
+
+                                        var rt = Model.RoleTypes?.FirstOrDefault(x => x.RolePageType == rolePageType);
+                                        var selected = rt != null ? rt.RoleType : RoleType.Blocked.ToString();
+
+                                        <td class="text-center">
+                                            <input type="radio" class="form-input" name="@item.ToString()" id="Role-@rolePageType-@role.ToString()" @(selected == role.ToString() ? "checked" : "") value="@role.ToString()" />
+                                            <label for="Role-@rolePageType-@role.ToString()"></label>
+
+                                        </td>
+
+                                    }
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> @(Model.Id == Guid.Empty ? "Yeni Oluştur" : "Güncelle")</button>
+                    </div>
+            </form>
+
+
+        </div>
+    </div>
+    <div class="ml-4">
+        <a asp-action="index">Listeye Geri Dön</a>
+    </div>
+</div>
+
+</div>
+
+
+

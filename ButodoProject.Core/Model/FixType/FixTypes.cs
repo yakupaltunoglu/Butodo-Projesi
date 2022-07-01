@@ -2,14 +2,30 @@
 
 namespace ButodoProject.Core.Model.FixType
 {
-    public enum ResultStatusCode
+    public enum RolePageType
     {
-        None = 0,
-        Success = 200,
-        NotFound = 404,
-        ValidationError = 800,
-        RequiredLogin = 100,
-        NotAuthorize = 403
+        None,
+        CompanyList,
+        CompanyAddorEdit,
+        PersonalList,
+        PersonalAddorEdit,
+        PersonalProjectList,
+        PersonalProjectAddorEdit,
+        ProjectList,
+        ProjectAddorEdit,
+        SpendTimeList,
+        SpendTimeAddorEdit,
+        TaskMessageList,
+        TaskMessageAddorEdit,
+        TaskTableList,
+        TaskTableAddorEdit,
     }
-  
+
+    public enum RoleType
+    {
+        Blocked = 0,
+        Viewer = 1,
+        Owner = 2
+    }
+
 }

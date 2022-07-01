@@ -81,8 +81,8 @@ namespace ButodoProject.Core.Service
                    .Where(x => x.IsDeleted == false)
                    .Where(x => x.Depth == 2)
                    .SelectList(u => u
-                    .Select(x => x.ProjectName).WithAlias(() => projectDto.ProjectName)
-                    .Select(x => x.FullProjectName).WithAlias(() => projectDto.FullProjectName)
+                    .Select(x => x.Name).WithAlias(() => projectDto.Name)
+                    .Select(x => x.FullName).WithAlias(() => projectDto.FullName)
                     .Select(x => x.Leftx).WithAlias(() => projectDto.Leftx)
                     .Select(x => x.Rightx).WithAlias(() => projectDto.Rightx)
                     .Select(x => x.Depth).WithAlias(() => projectDto.Depth)
@@ -111,7 +111,7 @@ namespace ButodoProject.Core.Service
                             EndDate = item2.EndDate,
                         });
                     }
-                    projectDtos.Add(new ProjectDto { ProjectName = item.ProjectName, TaskTableList = taskTableDtos });
+                    projectDtos.Add(new ProjectDto { Name = item.Name, TaskTableList = taskTableDtos });
                 }
             }
 
@@ -133,7 +133,7 @@ namespace ButodoProject.Core.Service
                     .Select(x => x.CreatedAt).WithAlias(() => taskTableDto.CreatedAt)
                     .Select(x => x.Name).WithAlias(() => taskTableDto.Name)
                     .Select(x => x.Id).WithAlias(() => taskTableDto.Id)
-                    .Select(x => jProject.ProjectName).WithAlias(() => taskTableDto.ProjectName)
+                    .Select(x => jProject.Name).WithAlias(() => taskTableDto.ProjectName)
                     .Select(x => jPersonal.Name).WithAlias(() => taskTableDto.PersonalName)
                     .Select(x => jProject.Id).WithAlias(() => taskTableDto.ProjectId)
                     .Select(x => jPersonal.Id).WithAlias(() => taskTableDto.PersonalId)

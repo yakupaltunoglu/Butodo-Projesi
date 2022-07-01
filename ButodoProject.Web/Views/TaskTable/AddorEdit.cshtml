@@ -1,33 +1,57 @@
 ﻿@using ButodoProject.Core.Service.Dto
+@using FluentValidation.Results
 @model ButodoProject.Core.Service.Dto.TaskTableDto
 
 @{
     ViewData["Title"] = "Görev Oluştur";
+        var exception = (List<ValidationFailure>)ViewBag.Exception;
+
 }
 
 <div class="container-fluid">
+    @if (exception?.Count > 0)
+    {
+        <h1>Hata Listesi</h1>
+        <table class="table table-sm table-danger">
+            <tr>
+                <th scope="col">
+                    Hata Mesajı
+                </th>
+            </tr>
+            @{
+                int rowCount = 0;
+            }
+            @foreach (var err in exception)
+            {
+                rowCount += 1;
+                <tr @((rowCount%2)==0 ? "class=table-primary" : "class=table-secondary")>
+                    <td>
+                        @Html.DisplayFor(modelItem => err.ErrorMessage)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
     <p class="mb-4 mt-4"></p>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Görev Oluştur</h6>
         </div>
         <div class="card-body">
+
             <div class="row">
                 <div class="col-md-4">
                     <form asp-action="AddorEdit">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="Id" />
-                        
+
                         <div class="form-group">
                             <label asp-for="Name" class="control-label">Görev Adı</label>
-                            <input asp-for="Name" class="form-control"/>
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <input asp-for="Name" class="form-control" />
 
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label asp-for="EndDate" class="control-label">Termin Tarihi</label>
-                            <input asp-for="EndDate" type="date" class="form-control"/>
-                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                            <input asp-for="EndDate" type="date" class="form-control" />
 
                         </div>
                         <div class="form-group">
@@ -36,15 +60,13 @@
                                     asp-items="@(new SelectList(Model.PersonalList,  nameof(PersonalDto.Id), nameof(PersonalDto.Name),Model.PersonalId))">
                                 <option>Lütfen Seçim Yapın</option>
                             </select>
-                            <span asp-validation-for="PersonalId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Proje</label>
                             <select name="ProjectId" id="ProjectId" class="form-control"
-                                    asp-items="@(new SelectList(Model.ProjectList, nameof(ProjectDto.Id), nameof(ProjectDto.ProjectName),Model.ProjectId))">
+                                    asp-items="@(new SelectList(Model.ProjectList, nameof(ProjectDto.Id), nameof(ProjectDto.Name),Model.ProjectId))">
                                 <option>Lütfen Seçim Yapın</option>
                             </select>
-                            <span asp-validation-for="ProjectId" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
@@ -61,8 +83,3 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

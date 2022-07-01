@@ -139,5 +139,18 @@ namespace ButodoProject.Core.Service
             CurrentSession.Flush();
         }
         #endregion
+
+        //public RoleType RoleControl(RolePageType rolePageType)
+        //{
+        //    var loginAdmin = UserHelper.GetLoginAdmin();
+        //    var admin = GetAdmin(loginAdmin.AdminId);
+        //    var role = CurrentSession.QueryOver<PersonalRole>()
+        //        .Where(x => x.Personal.Id == admin.Id)
+        //        .Where(x => x.RolePageType == rolePageType)
+        //        .SingleOrDefault();
+
+        //    return role?.RoleType ?? RoleType.Blocked;
+        //}
+
     }
 }

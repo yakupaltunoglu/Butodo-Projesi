@@ -13,6 +13,9 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
@@ -20,10 +23,13 @@ namespace ButodoProject.Web.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
-        public ProjectController(NHibernate.ISession sessions)
+        private IValidator<ProjectDto> _validator;
+        private readonly ICompanyService _companyService;
+        public ProjectController(IValidator<ProjectDto> validator, NHibernate.ISession sessions)
         {
             _projectService = new ProjectService(sessions);
-
+            _companyService = new CompanyService(sessions);
+            _validator = validator;
         }
         #region Crud
         public IActionResult Index()
@@ -35,19 +41,29 @@ namespace ButodoProject.Web.Controllers
         {
             Guid projectId;
             Guid.TryParse(id, out projectId);
-            return View(_projectService.GetProject(projectId));
+            var result = _projectService.GetProject(projectId);
+            GetSelectListItems(result);
+            return View(result);
+        }
+        private void GetSelectListItems(ProjectDto projectDto)
+        {
+            var companyList = _companyService.ListCompany();
+            projectDto.CompanyList = companyList;
         }
 
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,Name")] ProjectDto projectDto)
+        public async Task<IActionResult> AddorEdit([Bind("Id,Name,Leftx,Rightx,Depth,CompanyId")] ProjectDto projectDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(projectDto);
+
+            if (result.IsValid)
             {
                 _projectService.SaveOrUpdateProject(projectDto);
                 return RedirectToAction(nameof(Index));
             }
+            result.AddToModelState(this.ModelState, "");
+            ViewBag.Exception = result.Errors;
+            GetSelectListItems(projectDto);
             return View(projectDto);
         }
       

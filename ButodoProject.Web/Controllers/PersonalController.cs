@@ -4,8 +4,9 @@ using ButodoProject.Core.Service;
 using ButodoProject.Core.Service.Dto;
 using ButodoProject.Core.Service.Interface;
 using ButodoProject.Web.Models;
-using ButodoProject.Web.Validators;
+using ButodoProject.Core.Validators;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -17,19 +18,7 @@ using System.Threading.Tasks;
 
 namespace ButodoProject.Web.Controllers
 {
-    public static class Extensions
-    {
-        public static void AddToModelState(this ValidationResult result, ModelStateDictionary modelState)
-        {
-            if (!result.IsValid)
-            {
-                foreach (var error in result.Errors)
-                {
-                    modelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                }
-            }
-        }
-    }
+  
     public class PersonalController : Controller
     {
         private readonly IPersonalService _personalService;
@@ -45,6 +34,10 @@ namespace ButodoProject.Web.Controllers
         #region Crud
         public IActionResult Index()
         {
+            //var roleType = _personalService.RoleControl(RolePageType.PersonalList);
+            //if (roleType == RoleType.Blocked)
+            //    return View("NotAuthorize");
+            //ViewBag.RoleType = roleType;
             var result = _personalService.ListPersonal();
             return View(result);
         }
@@ -52,8 +45,6 @@ namespace ButodoProject.Web.Controllers
 
         public IActionResult AddorEdit(string id)
         {
-
-
             Guid personalId;
             Guid.TryParse(id, out personalId);
             var personalDto = _personalService.GetPersonal(personalId);
@@ -71,7 +62,6 @@ namespace ButodoProject.Web.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> AddorEdit([Bind("Id,Name,Surname,PersonalTypeId,CompanyId,Password,Email,Username")] PersonalDto personalDto)
         {
             ValidationResult result =await _validator.ValidateAsync(personalDto);
@@ -81,8 +71,8 @@ namespace ButodoProject.Web.Controllers
                 _personalService.SaveOrUpdatePersonal(personalDto);
                 return RedirectToAction(nameof(Index));
             }
-            result.AddToModelState(this.ModelState);
-            personalDto.Exception = result.Errors;
+            result.AddToModelState(this.ModelState,"");
+            ViewBag.Exception = result.Errors;
             GetSelectListItems(personalDto);
             return View(personalDto);
         }
@@ -92,6 +82,16 @@ namespace ButodoProject.Web.Controllers
             _personalService.DeletePersonal(id);
             return RedirectToAction(nameof(Index));
         }
+
+        //public IActionResult Role()
+        //{
+        //    var personal = User.Identity.Name;
+        //    //var roleType = _personalService.RoleControl(RolePageType.PersonalList);
+        //    //if (roleType == RoleType.Blocked)
+        //    //    return View("NotAuthorize");
+        //    //ViewBag.RoleType = roleType;
+        //    return View();
+        //}
         #endregion
 
     }

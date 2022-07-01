@@ -13,7 +13,7 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using ButodoProject.Web.Models;
-using ButodoProject.Web.Validators;
+using ButodoProject.Core.Validators;
 
 namespace ButodoProject.Web.Controllers
 {

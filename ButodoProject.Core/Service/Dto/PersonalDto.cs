@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ButodoProject.Core.Service.Dto
 {
-    public class PersonalDto : ResultModelDto
+    public class PersonalDto
     {
         public Guid Id { get; set; }
 
@@ -15,13 +15,15 @@ namespace ButodoProject.Core.Service.Dto
         public Guid PersonalTypeId { get; set; }
 
 
-        public Guid CompanyId { get; set; }
+
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string CompanyName { get; set; }
+  
         public string PersonalTypeName { get; set; }
 
         public CompanyDto CompanyDto { get; set; }
+        public Guid CompanyId { get; set; }
+        public string CompanyName { get; set; }
         public IList<CompanyDto> CompanyList { get; set; }
 
 
@@ -39,6 +41,8 @@ namespace ButodoProject.Core.Service.Dto
          
 
         public string Password { get; set; }
+
+     
 
     }
 }

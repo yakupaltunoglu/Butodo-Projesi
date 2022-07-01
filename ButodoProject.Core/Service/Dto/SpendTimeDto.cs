@@ -10,7 +10,7 @@ namespace ButodoProject.Core.Service.Dto
         public Guid PersonalId { get; set; }
         public Guid TaskTableId { get; set; }
 
-        public double Hour { get; set; }
+        public int Minute { get; set; }
         public DateTime CreatedAt { get; set; }
         public string TaskTableName { get; set; }
         public string PersonalName { get; set; }

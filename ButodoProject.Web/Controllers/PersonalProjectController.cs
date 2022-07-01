@@ -13,20 +13,25 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
     //[Authorize]
     public class PersonalProjectController : Controller
     {
+        private IValidator<PersonalProjectDto> _validator;
         private readonly IPersonalProjectService _personalProjectService;
         private readonly IPersonalService _personalService;
         private readonly IProjectService _projectService;
-        public PersonalProjectController(NHibernate.ISession sessions)
+        public PersonalProjectController(NHibernate.ISession sessions, IValidator<PersonalProjectDto> validator)
         {
             _personalProjectService = new PersonalProjectService(sessions);
             _personalService = new PersonalService(sessions);
             _projectService = new ProjectService(sessions);
+            _validator = validator;
 
         }
         #region Crud
@@ -37,24 +42,34 @@ namespace ButodoProject.Web.Controllers
         }
         public IActionResult AddorEdit(string id)
         {
+
             Guid personalProjectId;
             Guid.TryParse(id, out personalProjectId);
             var result = _personalProjectService.GetPersonalProject(personalProjectId);
-            result.PersonalList = _personalService.ListPersonal();
-            result.ProjectList = _projectService.ListProject();
+            GetSelectListItems(result);
             return View(result);
         }
 
+        private void GetSelectListItems(PersonalProjectDto result)
+        {
+            result.PersonalList = _personalService.ListPersonal();
+            result.ProjectList = _projectService.ListProject();
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,PersonalId,ProjectId")] PersonalProjectDto personalProjectDto)
+        public async Task<IActionResult> AddorEdit([Bind("Id,PersonalId,ProjectId")] PersonalProjectDto personalProjectDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(personalProjectDto);
+
+            if (result.IsValid)
             {
                 _personalProjectService.SaveOrUpdatePersonalProject(personalProjectDto);
                 return RedirectToAction(nameof(Index));
             }
+
+            result.AddToModelState(this.ModelState,"");
+            ViewBag.Exception = result.Errors;
+            GetSelectListItems(personalProjectDto);
             return View(personalProjectDto);
         }
       

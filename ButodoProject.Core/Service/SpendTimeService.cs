@@ -44,7 +44,7 @@ namespace ButodoProject.Core.Service
                 .SelectList(u => u
                     .Select(x => jPersonal.Name).WithAlias(() => spendTimeDto.PersonalName)
                     .Select(x => jTaskTable.Name).WithAlias(() => spendTimeDto.TaskTableName)
-                    .Select(x => x.Hour).WithAlias(() => spendTimeDto.Hour)
+                    .Select(x => x.Minute).WithAlias(() => spendTimeDto.Minute)
                     .Select(x => x.Id).WithAlias(() => spendTimeDto.Id)
                 )
                 .TransformUsing(Transformers.AliasToBean<SpendTimeDto>())
@@ -64,7 +64,7 @@ namespace ButodoProject.Core.Service
                 {
                     node = new SpendTime
                     {
-                        Hour = data.Hour,
+                        Minute = data.Minute,
                         Personal = CurrentSession.Load<Personal>(data.PersonalId),
                         TaskTable = CurrentSession.Load<TaskTable>(data.TaskTableId),
                     };
@@ -73,7 +73,7 @@ namespace ButodoProject.Core.Service
                 }
                 else
                 {
-                    node.Hour = data.Hour;
+                    node.Minute = data.Minute;
                     node.Personal = CurrentSession.Load<Personal>(data.PersonalId); 
                     node.TaskTable = CurrentSession.Load<TaskTable>(data.TaskTableId);
                     node.LastUpdatedAt = DateTime.Now;
@@ -95,7 +95,7 @@ namespace ButodoProject.Core.Service
             return spendTime == null ? new SpendTimeDto() : new SpendTimeDto
             {
                 Id = id,
-                Hour = spendTime.Hour, 
+                Minute = spendTime.Minute, 
                 PersonalId = spendTime.Personal.Id,
                 TaskTableId = spendTime.TaskTable.Id, 
             };

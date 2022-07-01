@@ -13,6 +13,9 @@ using ButodoProject.Core.Model.FixType;
 using ButodoProject.Core.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using FluentValidation.Results;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace ButodoProject.Web.Controllers
 {
@@ -22,10 +25,12 @@ namespace ButodoProject.Web.Controllers
         private readonly ITaskTableService _taskTableService;
         private readonly ITaskMessageService _taskMessageService;
         private readonly IProjectService _projectService;
-        public TaskMessageController(NHibernate.ISession sessions)
+        private IValidator<TaskMessageDto> _validator;
+        public TaskMessageController(NHibernate.ISession sessions, IValidator<TaskMessageDto> validator)
         {
             _taskTableService = new TaskTableService(sessions);
             _taskMessageService = new TaskMessageService(sessions);
+            _validator = validator;
 
         }
         #region Crud
@@ -39,20 +44,28 @@ namespace ButodoProject.Web.Controllers
             Guid personalProjectId;
             Guid.TryParse(id, out personalProjectId);
             var result = _taskMessageService.GetTaskMessage(personalProjectId);
-            result.TaskTableList = _taskTableService.ListTaskTable();
+            GetSelectListItems(result);
             return View(result);
         }
 
+        private void GetSelectListItems(TaskMessageDto result)
+        {
+            result.TaskTableList = _taskTableService.ListTaskTable();
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddorEdit([Bind("Id,Name,TaskTableId")] TaskMessageDto taskMessageDto)
+        public async Task<IActionResult> AddorEdit([Bind("Id,Name,TaskTableId")] TaskMessageDto taskMessageDto)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(taskMessageDto);
+
+            if (result.IsValid)
             {
                 _taskMessageService.SaveOrUpdateTaskMessage(taskMessageDto);
                 return RedirectToAction(nameof(Index));
             }
+            result.AddToModelState(this.ModelState, "");
+            ViewBag.Exception = result.Errors;
+            GetSelectListItems(taskMessageDto);
             return View(taskMessageDto);
         }
       

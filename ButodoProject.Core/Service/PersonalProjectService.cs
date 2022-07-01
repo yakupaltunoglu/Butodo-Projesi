@@ -39,7 +39,7 @@ namespace ButodoProject.Core.Service
                 .Where(x => x.IsDeleted == false)
                 .SelectList(u => u
                     .Select(x => jPersonal.Name).WithAlias(() => personalProjectDto.PersonalName)
-                    .Select(x => jProject.ProjectName).WithAlias(() => personalProjectDto.ProjectName)
+                    .Select(x => jProject.Name).WithAlias(() => personalProjectDto.ProjectName)
                     .Select(x => x.Id).WithAlias(() => personalProjectDto.Id)
                     .Select(x => x.CreatedAt).WithAlias(() => personalProjectDto.CreatedAt)
                 )
